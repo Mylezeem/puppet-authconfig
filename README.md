@@ -1,4 +1,4 @@
-Authconfig [![Build Status](https://travis-ci.org/Spredzy/puppet-authconfig.png)](https://travis-ci.org/Spredzy/puppet-authconfig)
+#Authconfig [![Build Status](https://travis-ci.org/Spredzy/puppet-authconfig.png)](https://travis-ci.org/Spredzy/puppet-authconfig)
 
 A Puppet module that installs and configure authconfig on EL distribution
 
