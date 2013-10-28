@@ -41,6 +41,11 @@ class authconfig (
   $ldaptls = false,
   $ldapserver = undef,
   $ldapbasedn = undef,
+  $nis = false,
+  $nisdomain = undef,
+  $nisserver = undef,
+  $md5 = false,
+  $shadow = true,
   ){
 
   case $::osfamily {
@@ -66,7 +71,32 @@ class authconfig (
         $ldapserver_val = "--ldapserer=${ldapserver} "
       }
 
-      $authconfig_cmd = "authconfig ${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val} --update"
+      # NIS
+      $nis_flg = $nis ? {
+        true    => '--enablenis',
+        default => '--disablenis',
+      }
+      if $nisdomain {
+        $nisdomain_val = "--nisdomain=${nisdomain} "
+      }
+      if $nisserver {
+        $nisserver_val = "--nisserver=${nisserver} "
+      }
+
+      # MD5
+      $md5_flg = $md5 ? {
+        true    => '--enablemd5',
+        default => '--disablemd5',
+      }
+
+      # SHADOW
+      $shadow_flg = $shadow ? {
+        true    => '--enableshadow',
+        default => '--disableshadow',
+      }
+
+
+      $authconfig_cmd = "authconfig ${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val} ${nis_flg} ${nisdomain} ${nisserver} ${md5_flg} ${shadow_flg} --update"
 
       package {'authconfig' :
         ensure => installed,

@@ -9,9 +9,12 @@ describe 'authconfig' do
     end
 
     let(:params) do
-      {'ldap' => true,
+      {'ldap'     => true,
        'ldapauth' => true,
-       'ldaptls' => false,}
+       'ldaptls'  => false,
+       'nis'      => false,
+       'shadow'   => true,
+       'md5'      => false}
     end
 
     it 'installs authconfig package' do
@@ -20,7 +23,7 @@ describe 'authconfig' do
 
     it 'execute authconfig update command' do
       should contain_exec('authconfig command').with({
-        'command' => 'authconfig --enableldap --enableldapauth --disableldaptls   --update',
+        'command' => 'authconfig --enableldap --enableldapauth --disableldaptls   --disablenis   --disablemd5 --enableshadow --update',
       })
     end
 
