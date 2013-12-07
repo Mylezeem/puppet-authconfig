@@ -1,52 +1,31 @@
 # == Class: authconfig
 #
-# Full description of class authconfig here.
+# A puppet module that enables authconfig configuration simply
 #
 # === Parameters
 #
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { authconfig:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
 # === Authors
 #
-# Author Name <author@domain.com>
+# Yanis Guenane <yguenane@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2013 Your name here, unless otherwise noted.
+# Copyright 2013 Yanis Guenane, unless otherwise noted.
 #
 class authconfig (
-  $ldap = false,
-  $ldapauth = false,
-  $ldaptls = false,
+  $ldap       = false,
+  $ldapauth   = false,
+  $ldaptls    = false,
   $ldapserver = undef,
   $ldapbasedn = undef,
-  $nis = false,
-  $nisdomain = undef,
-  $nisserver = undef,
-  $md5 = false,
-  $shadow = true,
+  $nis        = false,
+  $nisdomain  = undef,
+  $nisserver  = undef,
+  $md5        = false,
+  $shadow     = true,
   ){
+
+  include authconfig::params
 
   case $::osfamily {
 
@@ -68,7 +47,7 @@ class authconfig (
         $ldapbasedn_val = "--ldapbasedn=${ldapbasedn} "
       }
       if $ldapserver {
-        $ldapserver_val = "--ldapserer=${ldapserver} "
+        $ldapserver_val = "--ldapserver=${ldapserver} "
       }
 
       # NIS
@@ -95,11 +74,16 @@ class authconfig (
         default => '--disableshadow',
       }
 
-
       $authconfig_cmd = "authconfig ${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val} ${nis_flg} ${nisdomain} ${nisserver} ${md5_flg} ${shadow_flg} --update"
 
-      package {'authconfig' :
+      package {$authconfig::params::packages :
         ensure => installed,
+      } ->
+      service {$autconfig::params::services :
+        ensure     => running,
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
       } ->
       exec {'authconfig command' :
         path    => '/usr/sbin',
