@@ -5,7 +5,7 @@ rvm:
   - 2.0.0
   - ruby-head
 script:
-  - "rake spec SPEC_OPTS='--format documentation'"
+  - "rake test SPEC_OPTS='--format documentation'"
 env:
   - PUPPET_VERSION="~> 2.7.0"
   - PUPPET_VERSION="~> 3.0.0"

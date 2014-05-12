@@ -7,5 +7,4 @@ summary 'A Puppet module that installs and configure authconfig on EL distributi
 description 'This Puppet module allows you to configure Network Authentication Access via authconfig'
 project_page 'https://github.com/Spredzy/puppet-authconfig'
 
-## Add dependencies, if any:
-# dependency 'username/name', '>= 1.2.0'
+dependency 'puppetlabs/stdlib', '3.2.1'

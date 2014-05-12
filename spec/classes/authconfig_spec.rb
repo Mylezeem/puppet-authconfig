@@ -9,23 +9,83 @@ describe 'authconfig' do
     end
 
     let(:params) do
-      {'ldap'     => true,
-       'ldapauth' => true,
-       'ldaptls'  => false,
+      {
        'nis'      => false,
        'shadow'   => true,
-       'md5'      => false}
+       'passalgo' => 'md5',
+      }
     end
 
-    it 'installs authconfig package' do
+    it "installs package: authconfig" do
       should contain_package('authconfig')
     end
 
-    it 'execute authconfig update command' do
-      should contain_exec('authconfig command').with({
-        'command' => 'authconfig --enableldap --enableldapauth --disableldaptls   --disablenis   --disablemd5 --enableshadow --update',
-      })
+    context 'LDAP enabled' do
+      before :each do
+        params.merge!(
+          :ldap       => true,
+          :ldapauth   => true,
+          :ldaptls    => false,
+          :ldapserver => '192.168.42.42',
+          :ldapbasedn => 'dc=example,dc=com',
+        )
+      end
+
+      ['openldap-clients', 'nss-pam-ldapd', 'pam_ldap'].each do |package|
+        it "installs package: #{package}" do
+          should contain_package(package)
+        end
+      end
+
+      it 'configures service: nslcd' do
+        should contain_service('nslcd').with({
+          'ensure'     => 'running',
+          'enable'     => 'true',
+          'hasstatus'  => 'true',
+          'hasrestart' => 'true',
+        })
+      end
+
     end
+
+    context 'Kerberos enabled' do
+      before :each do
+        params.merge!(
+          :krb5 => true,
+        )
+      end
+
+      ['pam_krb5', 'krb5-workstation'].each do |package|
+        it "installs package: #{package}" do
+          should contain_package(package)
+        end
+      end
+    end
+
+    context 'Cache enabled' do
+      before :each do
+        params.merge!(
+          :cache => true,
+        )
+      end
+
+      ['nscd'].each do |package|
+        it "installs package: #{package}" do
+          should contain_package(package)
+        end
+      end
+
+      it 'configures service: nscd' do
+        should contain_service('nscd').with({
+          'ensure'     => 'running',
+          'enable'     => 'true',
+          'hasstatus'  => 'true',
+          'hasrestart' => 'true',
+        })
+      end
+
+    end
+
 
   end
 
