@@ -2,7 +2,7 @@
 
 A Puppet module that installs and configure authconfig on EL distribution
 
-**Note**: For this first version it only manages LDAP and NIS related authentication specifics.
+**Note**: For this first version it only manages LDAP, NIS, and Kerberos related authentication specifics.  It also handles enable/disable of cacheing (nscd).
           SMB, Winbind, will come in later version. PRs are welcome.
 
 ## Usage
@@ -21,6 +21,11 @@ This will install the authconfig package if necessary and set `ldap`, `ldapauth`
       ldaptls     => false,
       ldapserver  => '192.168.42.42',
       ldapbasedn  => 'dc=example,dc=com',
+      krb5	  => true,
+      krb5realm   => 'EXAMPLE.COM',
+      krb5kdc     => [ 'kdc1.example.com', 'kdc2.example.com'],
+      krb5kadmin  => 'kadmin.example.com',
+      cache 	  => true,
     }
 
 This will install the authconfig package if necessary and set `ldap` and `ldapauth` to `enable`. It will query the LDAP server located at `ldapserver` address at `ldapbasedn`.
