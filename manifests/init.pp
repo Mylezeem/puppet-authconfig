@@ -40,10 +40,12 @@ class authconfig (
         true    => '--enableldap',
         default => '--disableldap',
       }
+
       $ldapauth_flg = $ldapauth ? {
         true    => '--enableldapauth',
         default => '--disableldapauth',
       }
+
       $ldaptls_flg = $ldaptls ? {
         true    => '--enableldaptls',
         default => '--disableldaptls',
@@ -101,7 +103,8 @@ class authconfig (
       if (is_array($krb5kdc)) {
         $kdc_joined = join($krb5kdc, ',')
         $krb_kdc    = "--krb5kdc=${kdc_joined}"
-      } else {
+      } 
+      else {
         $krb_kdc = "--krb5kdc=${krb5kdc}"
       }
 
@@ -114,10 +117,12 @@ class authconfig (
         true    => '--enablecache',
         default => '--disablecache',
       }
+
       $fingerprint_flg       = $fingerprint ? {
         true    => '--enablefingerprint',
         default => '--disablefingerprint',
       }
+
       # construct the command
       $ldap_flags            = "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val}"
       $nis_flags             = "${nis_flg} ${nisdomain} ${nisserver}"
@@ -157,6 +162,7 @@ class authconfig (
           hasrestart => true,
         }
       }
+
       package { $authconfig::params::packages:
         ensure => installed,
       } ->
