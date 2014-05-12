@@ -1,3 +1,8 @@
+2014-05-12  Yanis Guenane  <yguenane@gmail.com>  0.2.0
+
+  * Support for Kerberos (@radioactiv)
+  * Run only if change is made (@radioactiv)
+
 2013-10-28  Yanis Guenane  <yguenane@gmail.com>  0.1.0
 
   * Initial Commit

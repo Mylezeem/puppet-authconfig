@@ -21,7 +21,7 @@ class authconfig (
   $nis         = false,
   $nisdomain   = undef,
   $nisserver   = undef,
-  $passalgo    = "md5",
+  $passalgo    = 'md5',
   $shadow      = true,
   $krb5        = false,
   $krb5realm   = undef,
@@ -33,7 +33,7 @@ class authconfig (
   include authconfig::params
 
   case $::osfamily {
-  
+
     'RedHat' : {
       # LDAP
       $ldap_flg = $ldap ? {
@@ -103,7 +103,7 @@ class authconfig (
       if (is_array($krb5kdc)) {
         $kdc_joined = join($krb5kdc, ',')
         $krb_kdc    = "--krb5kdc=${kdc_joined}"
-      } 
+      }
       else {
         $krb_kdc = "--krb5kdc=${krb5kdc}"
       }

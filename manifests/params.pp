@@ -1,4 +1,6 @@
+# authconfig::params
 class authconfig::params () {
+
   $packages = ['authconfig']
   $cache_packages = ['nscd']
   $ldap_packages = ['openldap-clients', 'nss-pam-ldapd', 'pam_ldap']

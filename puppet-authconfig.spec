@@ -1,5 +1,5 @@
 Name:           puppet-authconfig
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        A puppet module that installs and configure authconfig
 
@@ -33,6 +33,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGELOG README LICENSE
 
 %changelog
+* Mon May 12 2014  Yanis Guenane  <yguenane@gmail.com>  0.2.0
+- Support for Kerberos (@radioactiv)
+- Run only if change is made (@radioactiv)
 * Mon Oct 5 2013  Yanis Guenane  <yguenane@gmail.com>  0.1.0
 - Initial version
 
