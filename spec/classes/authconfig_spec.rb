@@ -51,7 +51,10 @@ describe 'authconfig' do
     context 'Kerberos enabled' do
       before :each do
         params.merge!(
-          :krb5 => true,
+          :krb5       => true,
+          :krb5realm  => 'example.com',
+          :krb5kdc    => 'kdc1.example.com',
+          :krb5kadmin => 'kadmin.example.com',
         )
       end
 

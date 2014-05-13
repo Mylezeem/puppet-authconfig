@@ -28,14 +28,25 @@ class authconfig (
   $krb5kdc     = undef,
   $krb5kadmin  = undef,
   $cache       = false,
-  $fingerprint = false,) {
-
-  include authconfig::params
+  $fingerprint = false,
+) inherits authconfig::params {
 
   case $::osfamily {
 
     'RedHat' : {
       # LDAP
+      if $ldap {
+
+        if $ldapserver == undef {
+          fail('The ldapserver parameter is required when ldap set to true')
+        }
+
+        if $ldapbasedn == undef {
+          fail('The ldapbasedn parameter is required when ldap is set to true')
+        }
+
+      }
+
       $ldap_flg = $ldap ? {
         true    => '--enableldap',
         default => '--disableldap',
@@ -60,6 +71,18 @@ class authconfig (
       }
 
       # NIS
+      if $nis {
+
+        if $nisdomain == undef {
+          fail('The nisdomain parameter is required when nis set to true')
+        }
+
+        if $nisserver == undef {
+          fail('The nisserver parameter is required when nis is set to true')
+        }
+
+      }
+
       $nis_flg = $nis ? {
         true    => '--enablenis',
         default => '--disablenis',
@@ -91,7 +114,23 @@ class authconfig (
       }
 
       # Kerberos
-      $krb_flg    = $krb5 ? {
+      if $krb5 {
+
+        if $krb5realm == undef {
+          fail('The krb5realm parameter is required when krb5 set to true')
+        }
+
+        if $krb5kdc == undef {
+          fail('The krb5kdc parameter is required when krb5 is set to true')
+        }
+
+        if $krb5kadmin == undef {
+          fail('The krb5kadmin parameter is required when krb5 is set to true')
+        }
+
+      }
+
+      $krb_flg = $krb5 ? {
         true    => '--enablekrb5',
         default => '--disablekrb5',
       }
@@ -113,21 +152,33 @@ class authconfig (
       }
 
       # Cache/nscd
-      $cache_flg             = $cache ? {
+      $cache_flg = $cache ? {
         true    => '--enablecache',
         default => '--disablecache',
       }
 
-      $fingerprint_flg       = $fingerprint ? {
+      $fingerprint_flg = $fingerprint ? {
         true    => '--enablefingerprint',
         default => '--disablefingerprint',
       }
 
       # construct the command
-      $ldap_flags            = "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val}"
-      $nis_flags             = "${nis_flg} ${nisdomain} ${nisserver}"
+      $ldap_flags = $ldap ? {
+        true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val}",
+        default => '',
+      }
+
+      $nis_flags = $nis ? {
+        true    => "${nis_flg} ${nisdomain} ${nisserver}",
+        default => '',
+      }
+
+      $krb5_flags = $krb5 ? {
+        true    => "${krb_flg} ${krb5realm_val} ${krb_kdc} ${$krb5kadmin_val}",
+        default => '',
+      }
+
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $krb5_flags            = "${krb_flg} ${krb5realm_val} ${krb_kdc} ${$krb5kadmin_val}"
       $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${cache_flg}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --update"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
