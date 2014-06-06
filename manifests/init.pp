@@ -169,7 +169,7 @@ class authconfig (
       }
 
       $nis_flags = $nis ? {
-        true    => "${nis_flg} ${nisdomain} ${nisserver}",
+        true    => "${nis_flg} ${nisdomain_val} ${nisserver_val}",
         default => '',
       }
 
