@@ -1,6 +1,6 @@
 {
   "name": "yguenane-authconfig",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "author": "Yanis Guenane",
   "summary": "A Puppet module to manage authconfig",
   "license": "Apache License 2.0",
@@ -16,6 +16,6 @@
   ],
   "description": "A Puppet module that lets one manage its system authconfig settings.",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.3.2"},
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4.3.2"}
   ]
 }

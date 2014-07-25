@@ -1,3 +1,8 @@
+2014-07-25  Yanis Guenane  <yguenane@gmail.com>  0.3.0
+
+  * Support for NIS (@DarrinC)
+  * Use of metadata.json for forge filtering
+
 2014-05-12  Yanis Guenane  <yguenane@gmail.com>  0.2.0
 
   * Support for Kerberos (@radioactiv)
