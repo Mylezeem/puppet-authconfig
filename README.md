@@ -35,7 +35,7 @@ class { 'authconfig' :
   winbindauth => false,
   smbsecurity => 'ads',
   smbrealm    => 'example.com',
-  winbindjoin => 'user@domain%password,
+  winbindjoin => 'user@domain%password',
 }
 ```
 
