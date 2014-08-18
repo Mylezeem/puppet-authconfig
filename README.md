@@ -31,6 +31,11 @@ class { 'authconfig' :
   krb5kdc     => ['kdc1.example.com', 'kdc2.example.com'],
   krb5kadmin  => 'kadmin.example.com',
   cache       => true,
+  winbind     => false,
+  winbindauth => false,
+  smbsecurity => 'ads',
+  smbrealm    => 'example.com',
+  winbindjoin => 'user@domain%password,
 }
 ```
 
@@ -76,6 +81,26 @@ Specify Kerberos KDC
 #### `krb5kadmin`
 
 Specify Kerberos administration server
+
+#### `winbind`
+
+Whether to enable Winbind
+
+#### `winbindauth`
+
+Whether to enable Winbind for user authentication
+
+#### `smbsecurity`
+
+The style of Winbind connection. Default: `ads`
+
+#### `smbrealm`
+
+Specify Active Directory realm
+
+#### `winbindjoin`
+
+Specify user credentials of a domain administrator in the form `username@domain%password`
 
 #### `cache`
 
