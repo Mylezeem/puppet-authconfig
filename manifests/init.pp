@@ -29,6 +29,11 @@ class authconfig (
   $krb5kadmin  = undef,
   $cache       = false,
   $fingerprint = false,
+  $winbind     = false,
+  $winbindauth = false,
+  $smbsecurity = 'ads',
+  $smbrealm    = undef,
+  $winbindjoin = undef,
 ) inherits authconfig::params {
 
   case $::osfamily {
@@ -151,6 +156,47 @@ class authconfig (
         $krb5kadmin_val = "--krb5adminserver=${krb5kadmin}"
       }
 
+      # Winbind
+      if ($winbind) {
+        #smbrealm= Active directory domain (e.g. yourcompany.com)
+        if $smbrealm == undef {
+          fail('The smbrealm parameter is required when winbind is set to true')
+        }
+
+        #winbindjoin= User name of domain admin user to authenticate the domain join of the machine.
+        if $winbindjoin == undef {
+          fail('The winbindjoin parameter is required when winbind is set to true')
+        }
+      }
+
+      $winbind_flg = $winbind ? {
+        true    => '--enablewinbind',
+        default => '--disablewinbind',
+      }
+
+      $winbindauth_flg = $winbindauth ? {
+        true    => '--enablewinbindauth',
+        default => '--disablewinbindauth',
+      }
+
+      if ($smbsecurity) {
+        $smbsecurity_val = "--smbsecurity=${smbsecurity}"
+      }
+
+      if ($smbrealm) {
+        $smbrealm_val = "--smbrealm=${smbrealm}"
+      }
+
+      if ($winbindjoin) {
+        $winbindjoin_val = "--winbindjoin=${winbindjoin}"
+      }
+
+      if (is_array($smbservers)) {
+        $smbservers_joined = join($smbservers, ',')
+        $smbservers_val = "--smbservers=${smbservers_joined}"
+      }
+
+
       # Cache/nscd
       $cache_flg = $cache ? {
         true    => '--enablecache',
@@ -178,8 +224,13 @@ class authconfig (
         default => '',
       }
 
+      $winbind_flags = $winbind ? {
+        true    => "${winbind_flg} ${winbindauth_flg} ${smbsecurity_val} ${smbrealm_val} ${winbindjoin_val} ${smbservers_val}",
+        default => '',
+      }
+
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${cache_flg}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${cache_flg}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --update"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""

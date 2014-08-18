@@ -65,6 +65,18 @@ describe 'authconfig' do
       end
     end
 
+    context 'Winbind enabled' do
+      before :each do
+        params.merge!(
+          :winbind     => true,
+          :winbindauth => true,
+          :smbsecurity => 'ads',
+          :smbrealm    => 'example.com',
+          :winbindjoin => 'user@domain%password',
+        )
+      end
+    end
+
     context 'Cache enabled' do
       before :each do
         params.merge!(

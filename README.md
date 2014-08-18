@@ -2,10 +2,9 @@
 
 [![Build Status](https://travis-ci.org/Mylezeem/puppet-authconfig.png)](https://travis-ci.org/Mylezeem/puppet-authconfig)
 
-A Puppet module that installs and configure authconfig on EL distribution
+A Puppet module that installs and configures authconfig on EL distributions.
 
-**Note**: For this first version it only manages LDAP, NIS, and Kerberos related authentication specifics.  It also handles enable/disable of cacheing (nscd).
-          SMB, Winbind, will come in later version. PRs are welcome.
+It can manage LDAP, NIS, Kerberos and SMB/Winbind related authentication specifics. It also handles enable/disable of caching (nscd).
 
 ## Usage
 
@@ -31,6 +30,11 @@ class { 'authconfig' :
   krb5kdc     => ['kdc1.example.com', 'kdc2.example.com'],
   krb5kadmin  => 'kadmin.example.com',
   cache       => true,
+  winbind     => false,
+  winbindauth => false,
+  smbsecurity => 'ads',
+  smbrealm    => 'example.com',
+  winbindjoin => 'user@domain%password',
 }
 ```
 
@@ -77,6 +81,26 @@ Specify Kerberos KDC
 
 Specify Kerberos administration server
 
+#### `winbind`
+
+Whether to enable Winbind
+
+#### `winbindauth`
+
+Whether to enable Winbind for user authentication
+
+#### `smbsecurity`
+
+The style of Winbind connection. Default: `ads`
+
+#### `smbrealm`
+
+Specify Active Directory realm
+
+#### `winbindjoin`
+
+Specify user credentials of a domain administrator in the form `username@domain%password`
+
 #### `cache`
 
 Whether to use naming services caches
@@ -84,7 +108,6 @@ Whether to use naming services caches
 ## License
 
 Apache License v2
-
 
 ## Contact
 
