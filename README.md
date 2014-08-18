@@ -2,10 +2,9 @@
 
 [![Build Status](https://travis-ci.org/Mylezeem/puppet-authconfig.png)](https://travis-ci.org/Mylezeem/puppet-authconfig)
 
-A Puppet module that installs and configure authconfig on EL distribution
+A Puppet module that installs and configures authconfig on EL distributions.
 
-**Note**: For this first version it only manages LDAP, NIS, and Kerberos related authentication specifics.  It also handles enable/disable of cacheing (nscd).
-          SMB, Winbind, will come in later version. PRs are welcome.
+It can manage LDAP, NIS, Kerberos and SMB/Winbind related authentication specifics. It also handles enable/disable of caching (nscd).
 
 ## Usage
 
@@ -109,7 +108,6 @@ Whether to use naming services caches
 ## License
 
 Apache License v2
-
 
 ## Contact
 
