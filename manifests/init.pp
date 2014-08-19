@@ -33,6 +33,7 @@ class authconfig (
   $winbindauth = false,
   $smbsecurity = 'ads',
   $smbrealm    = undef,
+  $smbservers  = undef,
   $winbindjoin = undef,
 ) inherits authconfig::params {
 
@@ -166,6 +167,10 @@ class authconfig (
         #winbindjoin= User name of domain admin user to authenticate the domain join of the machine.
         if $winbindjoin == undef {
           fail('The winbindjoin parameter is required when winbind is set to true')
+        }
+
+        if $smbservers == undef {
+          fail('The smbservers parameter is required when winbind is set to true')
         }
       }
 

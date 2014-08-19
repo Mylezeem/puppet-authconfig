@@ -20,4 +20,5 @@ task :lint do
 
   PuppetLint.configuration.send('disable_80chars')
   PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+  PuppetLint.configuration.send('disable_autoloader_layout')
 end
