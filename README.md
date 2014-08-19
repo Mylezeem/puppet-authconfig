@@ -97,6 +97,10 @@ The style of Winbind connection. Default: `ads`
 
 Specify Active Directory realm
 
+#### `smbservers`
+
+Specify Active Directory server or servers. Pass a string or an array.
+
 #### `winbindjoin`
 
 Specify user credentials of a domain administrator in the form `username@domain%password`
