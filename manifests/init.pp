@@ -164,6 +164,11 @@ class authconfig (
           fail('The smbrealm parameter is required when winbind is set to true')
         }
 
+        #smbworkgroup= Active directory workgroup (e.g. MYGROUP)
+        if $smbworkgroup == undef {
+          fail('The smbworkgroup parameter is required when winbind is set to true')
+        }
+
         #winbindjoin= User name of domain admin user to authenticate the domain join of the machine.
         if $winbindjoin == undef {
           fail('The winbindjoin parameter is required when winbind is set to true')
@@ -192,6 +197,10 @@ class authconfig (
         $smbrealm_val = "--smbrealm=${smbrealm}"
       }
 
+      if ($smbworkgroup) {
+        $smbworkgroup_val = "--smbworkgroup=${smbworkgroup}"
+      }
+
       if ($winbindjoin) {
         $winbindjoin_val = "--winbindjoin=${winbindjoin}"
       }
@@ -199,6 +208,8 @@ class authconfig (
       if (is_array($smbservers)) {
         $smbservers_joined = join($smbservers, ',')
         $smbservers_val = "--smbservers=${smbservers_joined}"
+      } else {
+        $smbservers_val = "--smbservers=${smbservers}"
       }
 
 
@@ -230,7 +241,7 @@ class authconfig (
       }
 
       $winbind_flags = $winbind ? {
-        true    => "${winbind_flg} ${winbindauth_flg} ${smbsecurity_val} ${smbrealm_val} ${winbindjoin_val} ${smbservers_val}",
+        true    => "${winbind_flg} ${winbindauth_flg} ${smbsecurity_val} ${smbrealm_val} ${smbworkgroup_val} ${winbindjoin_val} ${smbservers_val}",
         default => '',
       }
 

@@ -20,21 +20,22 @@ This will install the authconfig package if necessary and set `ldap`, `ldapauth`
 
 ```puppet
 class { 'authconfig' :
-  ldap        => true,
-  ldapauth    => true,
-  ldaptls     => false,
-  ldapserver  => '192.168.42.42',
-  ldapbasedn  => 'dc=example,dc=com',
-  krb5        => true,
-  krb5realm   => 'example.com',
-  krb5kdc     => ['kdc1.example.com', 'kdc2.example.com'],
-  krb5kadmin  => 'kadmin.example.com',
-  cache       => true,
-  winbind     => false,
-  winbindauth => false,
-  smbsecurity => 'ads',
-  smbrealm    => 'example.com',
-  winbindjoin => 'user@domain%password',
+  ldap         => true,
+  ldapauth     => true,
+  ldaptls      => false,
+  ldapserver   => '192.168.42.42',
+  ldapbasedn   => 'dc=example,dc=com',
+  krb5         => true,
+  krb5realm    => 'example.com',
+  krb5kdc      => ['kdc1.example.com', 'kdc2.example.com'],
+  krb5kadmin   => 'kadmin.example.com',
+  cache        => true,
+  winbind      => false,
+  winbindauth  => false,
+  smbsecurity  => 'ads',
+  smbrealm     => 'example.com',
+  smbworkgroup => 'MYGROUP',
+  winbindjoin  => 'user@domain%password',
 }
 ```
 
@@ -96,6 +97,10 @@ The style of Winbind connection. Default: `ads`
 #### `smbrealm`
 
 Specify Active Directory realm
+
+#### `smbworkgroup`
+
+Specify Active Directory workgroup
 
 #### `smbservers`
 
