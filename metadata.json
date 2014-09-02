@@ -1,6 +1,6 @@
 {
   "name": "yguenane-authconfig",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "Yanis Guenane",
   "summary": "A Puppet module to manage authconfig",
   "license": "Apache License 2.0",

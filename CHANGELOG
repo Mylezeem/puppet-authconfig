@@ -1,3 +1,7 @@
+2014-09-01  Yanis Guenane  <yguenane@gmail.com>  0.4.1
+
+  * Add support for parameter smbworkgroup (@djjudas21)
+
 2014-08-19  Yanis Guenane  <yguenane@gmail.com>  0.4.0
 
   * Support for SMB and Windbind (@djjudas21)

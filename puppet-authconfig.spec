@@ -1,5 +1,5 @@
 Name:           puppet-authconfig
-Version:        0.4.0
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        A puppet module that installs and configure authconfig
 
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGELOG README LICENSE
 
 %changelog
+* Mon Sep 1 2014  Yanis Guenane  <yguenane@gmail.com>  0.4.1
+- Add support for parameter smbworkgroup (@djjudas21)
 * Tue Aug 19 2014  Yanis Guenane  <yguenane@gmail.com>  0.4.0
 - Support for SMB and Winbind (@djjudas21)
 * Fri Jul 25 2014  Yanis Guenane  <yguenane@gmail.com>  0.3.0
