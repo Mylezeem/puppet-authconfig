@@ -114,6 +114,10 @@ Specify user credentials of a domain administrator in the form `username@domain%
 
 Whether to use naming services caches
 
+#### `mkhomedir`
+
+Whether to automatically create user home dir on first login
+
 ## License
 
 Apache License v2

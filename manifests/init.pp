@@ -36,6 +36,7 @@ class authconfig (
   $smbworkgroup = undef,
   $smbservers   = undef,
   $winbindjoin  = undef,
+  $mkhomedir    = false,
 ) inherits authconfig::params {
 
   case $::osfamily {
@@ -225,6 +226,11 @@ class authconfig (
         default => '--disablefingerprint',
       }
 
+      $mkhomedir_flg = $mkhomedir ? {
+        true    => '--enablemkhomedir',
+        default => '--disablemkhomedir',
+      }
+
       # construct the command
       $ldap_flags = $ldap ? {
         true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val}",
@@ -247,7 +253,7 @@ class authconfig (
       }
 
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${cache_flg}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${cache_flg} ${mkhomedir_flg}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --update"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
@@ -279,6 +285,7 @@ class authconfig (
           enable     => true,
           hasstatus  => true,
           hasrestart => true,
+          before     => Exec['authconfig command'],
         }
       }
 
