@@ -285,7 +285,8 @@ class authconfig (
           enable     => true,
           hasstatus  => true,
           hasrestart => true,
-        } -> Exec['authconfig command']
+          before     => Exec['authconfig command'],
+        }
       }
 
       package { $authconfig::params::packages:
