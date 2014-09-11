@@ -18,6 +18,7 @@ class authconfig (
   $ldaptls      = false,
   $ldapserver   = undef,
   $ldapbasedn   = undef,
+  $ldaploadcacert = undef,
   $nis          = false,
   $nisdomain    = undef,
   $nisserver    = undef,
@@ -72,6 +73,10 @@ class authconfig (
 
       if $ldapbasedn {
         $ldapbasedn_val = "--ldapbasedn='${ldapbasedn}'"
+      }
+
+      if $ldaploadcacert {
+        $ldaploadcacert_val = "--ldaploadcacert='${ldaploadcacert}'"
       }
 
       if $ldapserver {
@@ -233,7 +238,7 @@ class authconfig (
 
       # construct the command
       $ldap_flags = $ldap ? {
-        true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldapserver_val}",
+        true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldaploadcacert_val} ${ldapserver_val}",
         default => '',
       }
 
@@ -254,7 +259,7 @@ class authconfig (
 
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
       $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${cache_flg} ${mkhomedir_flg}"
-      $authconfig_update_cmd = "authconfig ${authconfig_flags} --update"
+      $authconfig_update_cmd = "authconfig ${authconfig_flags} --updateall"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
 
