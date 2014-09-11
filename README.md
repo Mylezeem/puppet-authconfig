@@ -25,6 +25,7 @@ class { 'authconfig' :
   ldaptls      => false,
   ldapserver   => '192.168.42.42',
   ldapbasedn   => 'dc=example,dc=com',
+  ldaploadcacert => 'http://www.example.com/certificates/Example_CA.pem'
   krb5         => true,
   krb5realm    => 'example.com',
   krb5kdc      => ['kdc1.example.com', 'kdc2.example.com'],
@@ -65,6 +66,10 @@ LDAP server address to connect to.
 #### `ldapbasedn`
 
 LDAP base dn to connet to.
+
+#### `ldaploadcacert`
+
+Loads a CA certificate over HTTP.
 
 #### `krb5`
 
