@@ -38,6 +38,9 @@ class authconfig (
   $smbservers     = undef,
   $winbindjoin    = undef,
   $mkhomedir      = false,
+  $krb5kdcdns     = false,
+  $krb5realmdns   = false,
+  $preferdns      = false,
 ) inherits authconfig::params {
 
   case $::osfamily {
@@ -219,6 +222,20 @@ class authconfig (
         $smbservers_val = "--smbservers=${smbservers}"
       }
 
+      $krb5kdcdns_flg = $krb5kdcdns ? {
+        true    => '--enablekrb5kdcdns',
+        default => '--disablekrb5kdcdns',
+      }
+
+      $krb5realmdns_flg = $krb5realmdns ? {
+        true    => '--enablekrb5realmdns',
+        default => '--disablekrb5realmdns',
+      }
+
+      $preferdns_flg = $preferdns ? {
+        true    => '--enablepreferdns',
+        default => '--disablepreferdns',
+      }
 
       # Cache/nscd
       $cache_flg = $cache ? {
@@ -248,7 +265,7 @@ class authconfig (
       }
 
       $krb5_flags = $krb5 ? {
-        true    => "${krb_flg} ${krb5realm_val} ${krb_kdc} ${$krb5kadmin_val}",
+        true    => "${krb_flg} ${krb5realm_val} ${krb_kdc} ${krb5kadmin_val} ${krb5kdcdns_flg} ${krb5realmdns_flg} ${preferdns_flg}",
         default => '',
       }
 

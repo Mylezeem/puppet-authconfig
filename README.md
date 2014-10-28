@@ -87,6 +87,18 @@ Specify Kerberos KDC
 
 Specify Kerberos administration server
 
+#### `krb5kdcdns`
+
+Enable use of DNS to find kerberos KDCs
+
+#### `krb5realmdns`
+
+Enable use of DNS to find kerberos realms
+
+#### `preferdns`
+
+Prefer dns over wins or nis for hostname resolution
+
 #### `winbind`
 
 Whether to enable Winbind
