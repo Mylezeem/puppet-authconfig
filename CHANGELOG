@@ -1,3 +1,11 @@
+2014-11-03  Yanis Guenane  <yguenane@gmail.com>  0.5.0
+
+  * Fix ordering issue (@gillesgagniard)
+  * Add support for RHEL7 (@gillesgagniard)
+  * Add support for parameter mkhomedir (@gillesgagniard)
+  * Add support for parameter ldaploadcacert (@rhartkopf)
+  * Add support for parameters krb5kdcdns, krb5realmdns, preferdns (@djjudas21)
+
 2014-09-01  Yanis Guenane  <yguenane@gmail.com>  0.4.1
 
   * Add support for parameter smbworkgroup (@djjudas21)

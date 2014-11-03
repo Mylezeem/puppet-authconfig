@@ -1,5 +1,5 @@
 Name:           puppet-authconfig
-Version:        0.4.1
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        A puppet module that installs and configure authconfig
 
@@ -33,6 +33,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGELOG README LICENSE
 
 %changelog
+* Mon Nov 3 2014  Yanis Guenane  <yguenane@gmail.com>  0.5.0
+- Fix ordering issue (@gillesgagniard)
+- Add support for RHEL7 (@gillesgagniard)
+- Add support for parameter mkhomedir (@gillesgagniard)
+- Add support for parameter ldaploadcacert (@rhartkopf)
+- Add support for parameters krb5kdcdns, krb5realmdns, preferdns (@djjudas21)
 * Mon Sep 1 2014  Yanis Guenane  <yguenane@gmail.com>  0.4.1
 - Add support for parameter smbworkgroup (@djjudas21)
 * Tue Aug 19 2014  Yanis Guenane  <yguenane@gmail.com>  0.4.0
