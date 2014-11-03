@@ -265,7 +265,7 @@ class authconfig (
       }
 
       $krb5_flags = $krb5 ? {
-        true    => "${krb_flg} ${krb5realm_val} ${krb_kdc} ${krb5kadmin_val} ${krb5kdcdns_flg} ${krb5realmdns_flg} ${preferdns_flg}",
+        true    => "${krb_flg} ${krb5realm_val} ${krb_kdc} ${krb5kadmin_val} ${krb5kdcdns_flg} ${krb5realmdns_flg}",
         default => '',
       }
 
@@ -274,8 +274,10 @@ class authconfig (
         default => '',
       }
 
+      $extra_flags = "${preferdns_flg}"
+
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${cache_flg} ${mkhomedir_flg}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --updateall"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
