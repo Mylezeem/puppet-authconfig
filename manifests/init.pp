@@ -323,7 +323,7 @@ class authconfig (
         hasrestart => true,
       } ->
       exec {'authconfig command':
-        path    => '/usr/sbin',
+        path    => ['/usr/bin', '/usr/sbin'],
         command => $authconfig_update_cmd,
         unless  => $exec_check_cmd
       }
