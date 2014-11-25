@@ -19,7 +19,6 @@ class authconfig (
   $ldapserver     = undef,
   $ldapbasedn     = undef,
   $ldaploadcacert = undef,
-  $forcelegacy    = undef,
   $sssd           = false,
   $sssdauth       = false,
   $forcelegacy    = false,
