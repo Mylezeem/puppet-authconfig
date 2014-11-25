@@ -22,6 +22,7 @@ class authconfig (
   $forcelegacy    = undef,
   $sssd           = false,
   $sssdauth       = false,
+  $forcelegacy    = false,
   $pamaccess      = false,
   $nis            = false,
   $nisdomain      = undef,
@@ -102,8 +103,7 @@ class authconfig (
 
       $forcelegacy_flg = $forcelegacy ? {
         true    => '--enableforcelegacy',
-        false   => '--disableforcelegacy',
-        default => undef,
+        default => '--disableforcelegacy',
       }
 
       # NIS

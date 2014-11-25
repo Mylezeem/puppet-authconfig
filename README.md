@@ -28,6 +28,7 @@ class { 'authconfig' :
   ldaploadcacert => 'http://www.example.com/certificates/Example_CA.pem'
   sssd           => false,
   sssdauth       => false,
+  forcelegacy    => false,
   pamaccess      => false,
   krb5           => true,
   krb5realm      => 'example.com',
@@ -81,6 +82,10 @@ Whether to enable SSSD - caches credentials from a remote provider such as LDAP.
 #### `sssdauth`
 
 Whether to enable SSSD Auth - Allows users to authenticate from a local cache pulled from a remote provider such as LDAP.
+
+#### `forcelegacy`
+
+Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
 
 #### `pamaccess`
 
@@ -149,10 +154,6 @@ Whether to use naming services caches
 #### `mkhomedir`
 
 Whether to automatically create user home dir on first login
-
-#### `forcelegacy`
-
-Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
 
 ## License
 
