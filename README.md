@@ -150,7 +150,7 @@ Whether to use naming services caches
 
 Whether to automatically create user home dir on first login
 
-#### `forcelegacey`
+#### `forcelegacy`
 
 Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
 
