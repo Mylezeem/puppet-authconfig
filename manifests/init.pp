@@ -19,6 +19,10 @@ class authconfig (
   $ldapserver     = undef,
   $ldapbasedn     = undef,
   $ldaploadcacert = undef,
+  $forcelegacy    = undef,
+  $sssd           = false,
+  $sssdauth       = false,
+  $pamaccess      = false,
   $nis            = false,
   $nisdomain      = undef,
   $nisserver      = undef,
@@ -84,6 +88,22 @@ class authconfig (
 
       if $ldapserver {
         $ldapserver_val = "--ldapserver=${ldapserver}"
+      }
+
+      $sssd_flg = $sssd ? {
+        true    => '--enablesssd',
+        default => '--disablesssd',
+      }
+
+      $sssdauth_flg = $sssdauth ? {
+        true    => '--enablesssdauth',
+        default => '--disablesssdauth',
+      }
+
+      $forcelegacy_flg = $forcelegacy ? {
+        true    => '--enableforcelegacy',
+        false   => '--disableforcelegacy',
+        default => undef,
       }
 
       # NIS
@@ -253,6 +273,12 @@ class authconfig (
         default => '--disablemkhomedir',
       }
 
+      #Add PAM Access
+      $pamaccess_flg = $pamaccess ? {
+        true    => '--enablepamaccess',
+        default => '--disablepamaccess',
+      }
+
       # construct the command
       $ldap_flags = $ldap ? {
         true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldaploadcacert_val} ${ldapserver_val}",
@@ -274,10 +300,10 @@ class authconfig (
         default => '',
       }
 
-      $extra_flags = "${preferdns_flg}"
+      $extra_flags = "${preferdns_flg} ${forcelegacy_flg} ${pamaccess_flg}"
 
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg} ${sssd_flg} ${sssdauth_flg}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --updateall"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
