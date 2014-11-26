@@ -20,23 +20,27 @@ This will install the authconfig package if necessary and set `ldap`, `ldapauth`
 
 ```puppet
 class { 'authconfig' :
-  ldap         => true,
-  ldapauth     => true,
-  ldaptls      => false,
-  ldapserver   => '192.168.42.42',
-  ldapbasedn   => 'dc=example,dc=com',
+  ldap           => true,
+  ldapauth       => true,
+  ldaptls        => false,
+  ldapserver     => '192.168.42.42',
+  ldapbasedn     => 'dc=example,dc=com',
   ldaploadcacert => 'http://www.example.com/certificates/Example_CA.pem'
-  krb5         => true,
-  krb5realm    => 'example.com',
-  krb5kdc      => ['kdc1.example.com', 'kdc2.example.com'],
-  krb5kadmin   => 'kadmin.example.com',
-  cache        => true,
-  winbind      => false,
-  winbindauth  => false,
-  smbsecurity  => 'ads',
-  smbrealm     => 'example.com',
-  smbworkgroup => 'MYGROUP',
-  winbindjoin  => 'user@domain%password',
+  sssd           => false,
+  sssdauth       => false,
+  forcelegacy    => false,
+  pamaccess      => false,
+  krb5           => true,
+  krb5realm      => 'example.com',
+  krb5kdc        => ['kdc1.example.com', 'kdc2.example.com'],
+  krb5kadmin     => 'kadmin.example.com',
+  cache          => true,
+  winbind        => false,
+  winbindauth    => false,
+  smbsecurity    => 'ads',
+  smbrealm       => 'example.com',
+  smbworkgroup   => 'MYGROUP',
+  winbindjoin    => 'user@domain%password',
 }
 ```
 
@@ -70,6 +74,22 @@ LDAP base dn to connet to.
 #### `ldaploadcacert`
 
 Loads a CA certificate over HTTP.
+
+#### `sssd`
+
+Whether to enable SSSD - caches credentials from a remote provider such as LDAP.
+
+#### `sssdauth`
+
+Whether to enable SSSD Auth - Allows users to authenticate from a local cache pulled from a remote provider such as LDAP.
+
+#### `forcelegacy`
+
+Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
+
+#### `pamaccess`
+
+Whether to enable pam access - Allows administrators to configure the authentication process to run the pam_access module during account authorization.
 
 #### `krb5`
 
