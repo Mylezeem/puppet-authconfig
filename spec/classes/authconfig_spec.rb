@@ -5,7 +5,10 @@ describe 'authconfig' do
   context 'EL distributions' do
 
     let(:facts) do
-      {:osfamily => 'RedHat'}
+      {
+        :osfamily                  => 'RedHat',
+        :operatingsystemmajrelease => 6,
+      }
     end
 
     let(:params) do
