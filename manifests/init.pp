@@ -100,9 +100,17 @@ class authconfig (
         default => '--disablesssdauth',
       }
 
-      $forcelegacy_flg = $forcelegacy ? {
-        true    => '--enableforcelegacy',
-        default => '--disableforcelegacy',
+      if $::osfamily == 'RedHat' {
+        if $::operatingsystemmajrelease >= 6 {
+          $forcelegacy_flg = $forcelegacy ? {
+            true    => '--enableforcelegacy',
+            default => '--disableforcelegacy',
+          }
+        } else {
+          $forcelegacy_flg = ''
+        }
+      } else {
+        $forcelegacy_flg = ''
       }
 
       # NIS
