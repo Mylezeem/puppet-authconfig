@@ -275,9 +275,14 @@ class authconfig (
         default => '--disablefingerprint',
       }
 
-      $mkhomedir_flg = $mkhomedir ? {
-        true    => '--enablemkhomedir',
-        default => '--disablemkhomedir',
+      case $::operatingsystemmajrelease {
+        '5':     { $mkhomedir_flg = '' } # not available on EL5
+        default: {
+          $mkhomedir_flg = $mkhomedir ? {
+            true    => '--enablemkhomedir',
+            default => '--disablemkhomedir',
+          }
+        }
       }
 
       #Add PAM Access
@@ -344,6 +349,13 @@ class authconfig (
           hasrestart => true,
           before     => Exec['authconfig command'],
         }
+      }
+
+      if ($mkhomedir) {
+        package { $authconfig::params::mkhomedir_packages:
+          ensure => installed,
+        }
+      # service oddjobd is started automatically by authconfig
       }
 
       package { $authconfig::params::packages:
