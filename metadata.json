@@ -1,15 +1,45 @@
 {
   "name": "yguenane-authconfig",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "Yanis Guenane",
   "summary": "A Puppet module to manage authconfig",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/Mylezeem/puppet-authconfig",
   "project_page": "https://github.com/Mylezeem/puppet-authconfig",
   "issues_url": "https://github.com/Mylezeem/puppet-authconfig/issues",
   "operatingsystem_support": [
-    {"operatingsystem": "CentOS"},
-    {"operatingsystem": "RedHat"}
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    }
   ],
   "requirements": [
     {"name": "puppet","version_requirement": "3.x"}

@@ -1,3 +1,10 @@
+2015-02-26  Yanis Guenane  <yguenane@gmail.com> 0.6.0
+
+  * Add support for ssd, ssd_auth, pamaccess, forcelegacy (@Z3r0Sum)
+  * Modify PATH to the authconfig exec command so /usr/sbin/cacertdir_rehash will work (@lorenjanwilson)
+  * Better support for EL5 based OS (@GerbenWelter, @ofalk)
+  * Better support for mkhomedir flag (@GerbenWelter)
+
 2014-11-03  Yanis Guenane  <yguenane@gmail.com>  0.5.0
 
   * Fix ordering issue (@gillesgagniard)

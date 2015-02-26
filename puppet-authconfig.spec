@@ -1,5 +1,5 @@
 Name:           puppet-authconfig
-Version:        0.5.0
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        A puppet module that installs and configure authconfig
 
@@ -33,6 +33,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGELOG README LICENSE
 
 %changelog
+* Thu Feb 26 2015  Yanis Guenane  <yguenane@gmail.com> 0.6.0
+- Add support for ssd, ssd_auth, pamaccess, forcelegacy (@Z3r0Sum)
+- Modify PATH to the authconfig exec command so /usr/sbin/cacertdir_rehash will work (@lorenjanwilson)
+- Better support for EL5 based OS (@GerbenWelter, @ofalk)
+- Better support for mkhomedir flag (@GerbenWelter)
 * Mon Nov 3 2014  Yanis Guenane  <yguenane@gmail.com>  0.5.0
 - Fix ordering issue (@gillesgagniard)
 - Add support for RHEL7 (@gillesgagniard)
