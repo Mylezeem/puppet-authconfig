@@ -46,6 +46,6 @@
   ],
   "description": "A Puppet module that lets one manage its system authconfig settings.",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.3.2"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4,3.2 < 5.0.0"},
   ]
 }
