@@ -1,22 +1,19 @@
+# Managed by modulesync
+# Configs https://github.com/Mylezeem/mylezeem-msync
+#
+---
 language: ruby
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.2
-  - ruby-head
-script:
-  - "rake test SPEC_OPTS='--format documentation'"
-env:
-  - PUPPET_VERSION="~> 2.7.0"
-  - PUPPET_VERSION="~> 3.0.0"
-  - PUPPET_VERSION="~> 3.1.0"
+bundler_args: --without system_tests
+script: "bundle exec rake validate && bundle exec rake lint && bundle exec rake spec SPEC_OPTS='--format documentation'"
+sudo: false
 matrix:
-  allow_failures:
-    - rvm: ruby-head
-  exclude:
-    - rvm: 1.9.3
-      env: PUPPET_GEM_VERSION="~> 2.7.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 2.7.0"
-gemfile: .gemfile
-
+  fast_finish: true
+  include:
+  - rvm: 1.9.3
+    env: PUPPET_GEM_VERSION="~> 3.4"
+  - rvm: 2.0.0
+    env: PUPPET_GEM_VERSION="~> 3.4"
+  - rvm: 2.0.0
+    env: PUPPET_GEM_VERSION="~> 3.7"
+notifications:
+  email: false

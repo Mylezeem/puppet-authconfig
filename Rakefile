@@ -1,24 +1,27 @@
-require 'rake'
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# Managed by modulesync
+# Configs https://github.com/Mylezeem/mylezeem-msync
+#
 require 'puppetlabs_spec_helper/rake_tasks'
-require 'puppet-lint'
+require 'puppet_blacksmith/rake_tasks'
+require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-syntax/tasks/puppet-syntax'
 
-desc 'Run syntax, lint and spec tests'
-task :test => [:validate,:lint,:spec]
+TDIR = File.expand_path(File.dirname(__FILE__))
+NAME = "yguenane-#{File.basename(TDIR).split('-')[1]}"
 
-desc "Validate the Puppet syntax of all manifests"
-task :validate do
-  Dir['./manifests/**/*.pp'].each do |filename|
-    sh "puppet parser validate '#{filename}'"
+exclude_path = ["spec/**/*","pkg/**/*","vendor/**/*"]
+
+PuppetLint.configuration.fail_on_warnings = true
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.ignore_paths = exclude_path
+PuppetSyntax.exclude_paths = exclude_path
+
+namespace :module do
+  desc "Build #{NAME} module (in a clean env, for puppetforge)"
+  task :build do
+    exec "rsync -rv --exclude-from=#{TDIR}/.forgeignore . /tmp/#{NAME};cd /tmp/#{NAME};puppet module build"
   end
-end
-
-desc 'Run puppet-lint on Puppet manifests defined in this repo'
-task :lint do
-  # Including puppet-lint rake tasks after the puppetlabs_spec_helper tasks to
-  # make sure that the pl_s_h lint task doesn't overwrite our configuration below
-  require 'puppet-lint/tasks/puppet-lint'
-
-  PuppetLint.configuration.send('disable_80chars')
-  PuppetLint.configuration.send('disable_class_inherits_from_params_class')
-  PuppetLint.configuration.send('disable_autoloader_layout')
 end
