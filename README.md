@@ -75,6 +75,10 @@ LDAP base dn to connet to.
 
 Loads a CA certificate over HTTP.
 
+#### `passalgo`
+
+Password hashing algorithm
+
 #### `sssd`
 
 Whether to enable SSSD - caches credentials from a remote provider such as LDAP.
