@@ -95,6 +95,10 @@ Pass true or false, which equate to yes or no - undef will not set the value.  U
 
 Whether to enable pam access - Allows administrators to configure the authentication process to run the pam_access module during account authorization.
 
+#### `locauthorize`
+
+Whether to bypass checking network authentication services for authorization
+
 #### `krb5`
 
 Whether to enable Kerberos.
