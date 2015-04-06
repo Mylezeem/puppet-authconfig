@@ -91,6 +91,26 @@ Whether to enable SSSD Auth - Allows users to authenticate from a local cache pu
 
 Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
 
+#### `nis`
+
+Whether to enable NIS for user information.
+
+#### `nisdomain`
+
+NIS Domain
+
+#### `nisserver`
+
+NIS Server
+
+#### `shadow`
+
+Enable shadow password
+
+#### `fingerprint`
+
+Enable fingerprint authentication
+
 #### `pamaccess`
 
 Whether to enable pam access - Allows administrators to configure the authentication process to run the pam_access module during account authorization.

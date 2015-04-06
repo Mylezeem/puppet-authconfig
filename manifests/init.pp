@@ -4,6 +4,109 @@
 #
 # === Parameters
 #
+#  [*ldap*]
+#    Whether to enable LDAP for user information.
+#
+#  [*ldapauth*]
+#    Whether to enable LDAP for user authentication.
+#
+#  [*ldaptls*]
+#    Whether to enable use of TLS with LDAP.
+#
+#  [*ldapserver*]
+#    LDAP server address to connect to.
+#
+#  [*ldapbasedn*]
+#    LDAP base dn to connet to.
+#
+#  [*ldaploadcacert*]
+#    Loads a CA certificate over HTTP.
+#
+#  [*nis*]
+#    Whether to enable NIS for user information.
+#
+#  [*nisdomain*]
+#    NIS Domain
+#
+#  [*nisserver*]
+#    NIS Server
+#
+#  [*shadow*]
+#    Enable shadow password
+#
+#  [*fingerprint*]
+#    Enable fingerprint authentication
+#
+#  [*passalgo*]
+#    Password hashing algorithm
+#
+#  [*sssd*]
+#    Whether to enable SSSD - caches credentials from a remote provider such as LDAP.
+#
+#  [*sssdauth*]
+#    Whether to enable SSSD Auth - Allows users to authenticate from a local cache pulled from a remote provider such as LDAP.
+#
+#  [*forcelegacy*]
+#    Pass true or false, which equate to yes or no - undef will not set the value.  Used in conjunction with SSSD and other caching services.
+#
+#  [*pamaccess*]
+#    Whether to enable pam access - Allows administrators to configure the authentication process to run the pam_access module during account authorization.
+#
+#  [*locauthorize*]
+#    Whether to bypass checking network authentication services for authorization
+#
+#  [*sysnetauth*]
+#    Whether to allow authentication of system accounts
+#
+#  [*krb5*]
+#    Whether to enable Kerberos.
+#
+#  [*krb5realm*]
+#    Specify Kerberos realm.
+#
+#  [*krb5kdc*]
+#    Specify Kerberos KDC
+#
+#  [*krb5kadmin*]
+#    Specify Kerberos administration server
+#
+#  [*krb5kdcdns*]
+#    Enable use of DNS to find kerberos KDCs
+#
+#  [*krb5realmdns*]
+#    Enable use of DNS to find kerberos realms
+#
+#  [*preferdns*]
+#    Prefer dns over wins or nis for hostname resolution
+#
+#  [*winbind*]
+#    Whether to enable Winbind
+#
+#  [*winbindauth*]
+#    Whether to enable Winbind for user authentication
+#
+#  [*smbsecurity*]
+#    The style of Winbind connection. Default: `ads`
+#
+#  [*smbrealm*]
+#    Specify Active Directory realm
+#
+#  [*smbworkgroup*]
+#    Specify Active Directory workgroup
+#
+#  [*smbservers*]
+#   Specify Active Directory server or servers. Pass a string or an array.
+#
+#  [*winbindjoin*]
+#    Specify user credentials of a domain administrator in the form `username@domain%password`
+#
+#  [*cache*]
+#    Whether to use naming services caches
+#
+#  [*mkhomedir*]
+#
+#Whether to automatically create user home dir on first login
+#
 # === Authors
 #
 # Yanis Guenane <yguenane@gmail.com>
@@ -143,7 +246,7 @@ class authconfig (
 
       # MD5
       $md5_flg = $passalgo ? {
-        md5     => '--enablemd5',
+        'md5'     => '--enablemd5',
         default => '--disablemd5',
       }
 
@@ -382,7 +485,7 @@ class authconfig (
       exec {'authconfig command':
         path    => ['/usr/bin', '/usr/sbin'],
         command => $authconfig_update_cmd,
-        unless  => $exec_check_cmd
+        unless  => $exec_check_cmd,
       }
     }
     default : {
