@@ -158,11 +158,11 @@ class authconfig (
       # LDAP
       if $ldap {
 
-        if $ldapserver == undef {
+        if !$ldapserver {
           fail('The ldapserver parameter is required when ldap set to true')
         }
 
-        if $ldapbasedn == undef {
+        if !$ldapbasedn {
           fail('The ldapbasedn parameter is required when ldap is set to true')
         }
 
@@ -221,11 +221,11 @@ class authconfig (
       # NIS
       if $nis {
 
-        if $nisdomain == undef {
+        if !$nisdomain {
           fail('The nisdomain parameter is required when nis set to true')
         }
 
-        if $nisserver == undef {
+        if !$nisserver {
           fail('The nisserver parameter is required when nis is set to true')
         }
 
@@ -251,7 +251,7 @@ class authconfig (
       }
 
       # hash/crypt algorithm for new passwords
-      if ($passalgo) {
+      if $passalgo {
         $passalgo_val = "--passalgo=${passalgo}"
       }
 
@@ -264,15 +264,15 @@ class authconfig (
       # Kerberos
       if $krb5 {
 
-        if $krb5realm == undef {
+        if !$krb5realm {
           fail('The krb5realm parameter is required when krb5 set to true')
         }
 
-        if $krb5kdc == undef {
+        if !$krb5kdc {
           fail('The krb5kdc parameter is required when krb5 is set to true')
         }
 
-        if $krb5kadmin == undef {
+        if !$krb5kadmin {
           fail('The krb5kadmin parameter is required when krb5 is set to true')
         }
 
@@ -283,37 +283,37 @@ class authconfig (
         default => '--disablekrb5',
       }
 
-      if ($krb5realm) {
+      if $krb5realm {
         $krb5realm_val = "--krb5realm=${krb5realm}"
       }
 
-      if ($krb5kdc) {
+      if $krb5kdc {
         $krb5kdc_real = join(any2array($krb5kdc), ',')
         $krb_kdc      = "--krb5kdc=${krb5kdc_real}"
       }
 
-      if ($krb5kadmin) {
+      if $krb5kadmin {
         $krb5kadmin_val = "--krb5adminserver=${krb5kadmin}"
       }
 
       # Winbind
-      if ($winbind) {
+      if $winbind {
         #smbrealm= Active directory domain (e.g. yourcompany.com)
-        if $smbrealm == undef {
+        if !$smbrealm {
           fail('The smbrealm parameter is required when winbind is set to true')
         }
 
         #smbworkgroup= Active directory workgroup (e.g. MYGROUP)
-        if $smbworkgroup == undef {
+        if !$smbworkgroup {
           fail('The smbworkgroup parameter is required when winbind is set to true')
         }
 
         #winbindjoin= User name of domain admin user to authenticate the domain join of the machine.
-        if $winbindjoin == undef {
+        if !$winbindjoin {
           fail('The winbindjoin parameter is required when winbind is set to true')
         }
 
-        if $smbservers == undef {
+        if !$smbservers {
           fail('The smbservers parameter is required when winbind is set to true')
         }
       }
@@ -328,23 +328,23 @@ class authconfig (
         default => '--disablewinbindauth',
       }
 
-      if ($smbsecurity) {
+      if $smbsecurity {
         $smbsecurity_val = "--smbsecurity=${smbsecurity}"
       }
 
-      if ($smbrealm) {
+      if $smbrealm {
         $smbrealm_val = "--smbrealm=${smbrealm}"
       }
 
-      if ($smbworkgroup) {
+      if $smbworkgroup {
         $smbworkgroup_val = "--smbworkgroup=${smbworkgroup}"
       }
 
-      if ($winbindjoin) {
+      if $winbindjoin {
         $winbindjoin_val = "--winbindjoin=${winbindjoin}"
       }
 
-      if ($smbservers) {
+      if $smbservers {
         $smbservers_real = join(any2array($smbservers), ',')
         $smbservers_val  = "--smbservers=${smbservers_real}"
       }
@@ -430,7 +430,7 @@ class authconfig (
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
 
-      if ($cache) {
+      if $cache {
         package { $authconfig::params::cache_packages:
           ensure => installed,
         } ->
@@ -442,13 +442,13 @@ class authconfig (
         }
       }
 
-      if ($krb5) {
+      if $krb5 {
         package { $authconfig::params::krb5_packages:
           ensure => installed,
         }
       }
 
-      if ($ldap) {
+      if $ldap {
         package { $authconfig::params::ldap_packages:
           ensure => installed,
         } ->
@@ -461,7 +461,7 @@ class authconfig (
         }
       }
 
-      if ($mkhomedir) {
+      if $mkhomedir {
         package { $authconfig::params::mkhomedir_packages:
           ensure => installed,
         }
