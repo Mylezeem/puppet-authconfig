@@ -287,12 +287,9 @@ class authconfig (
         $krb5realm_val = "--krb5realm=${krb5realm}"
       }
 
-      if (is_array($krb5kdc)) {
-        $kdc_joined = join($krb5kdc, ',')
-        $krb_kdc    = "--krb5kdc=${kdc_joined}"
-      }
-      else {
-        $krb_kdc = "--krb5kdc=${krb5kdc}"
+      if ($krb5kdc) {
+        $krb5kdc_real = join(any2array($krb5kdc), ',')
+        $krb_kdc      = "--krb5kdc=${krb5kdc_real}"
       }
 
       if ($krb5kadmin) {
@@ -347,11 +344,9 @@ class authconfig (
         $winbindjoin_val = "--winbindjoin=${winbindjoin}"
       }
 
-      if (is_array($smbservers)) {
-        $smbservers_joined = join($smbservers, ',')
-        $smbservers_val = "--smbservers=${smbservers_joined}"
-      } else {
-        $smbservers_val = "--smbservers=${smbservers}"
+      if ($smbservers) {
+        $smbservers_real = join(any2array($smbservers), ',')
+        $smbservers_val  = "--smbservers=${smbservers_real}"
       }
 
       $krb5kdcdns_flg = $krb5kdcdns ? {
