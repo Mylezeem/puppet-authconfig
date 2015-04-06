@@ -99,6 +99,10 @@ Whether to enable pam access - Allows administrators to configure the authentica
 
 Whether to bypass checking network authentication services for authorization
 
+#### `sysnetauth`
+
+Whether to allow authentication of system accounts
+
 #### `krb5`
 
 Whether to enable Kerberos.
