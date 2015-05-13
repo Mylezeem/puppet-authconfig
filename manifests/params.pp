@@ -8,7 +8,10 @@ class authconfig::params () {
     default => ['openldap-clients', 'nss-pam-ldapd', 'pam_ldap']
   }
   $krb5_packages      = ['pam_krb5', 'krb5-workstation']
-  $mkhomedir_packages = ['oddjob-mkhomedir']
+  $mkhomedir_packages = $::operatingsystemmajrelease ? {
+    5       => ['pam'],
+    default => ['oddjob-mkhomedir']
+  }
   $nis_packages       = ['ypbind']
   $nis_services       = ['ypbind']
   $services           = []
