@@ -2,6 +2,5 @@ fixtures:
   repositories:
     'stdlib':
       repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
-      ref: '3.2.1'
   symlinks:
     authconfig: "#{source_dir}"
