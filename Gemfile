@@ -24,6 +24,7 @@ end
 
 group :system_tests do
   gem 'beaker-rspec',  :require => false
+  gem 'serverspec',    :require => false
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
