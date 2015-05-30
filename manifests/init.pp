@@ -206,7 +206,7 @@ class authconfig (
       }
 
       if $::osfamily == 'RedHat' {
-        if $::operatingsystemmajrelease >= 6 {
+        if versioncmp($::operatingsystemmajrelease, '6') >= 0 {
           $forcelegacy_flg = $forcelegacy ? {
             true    => '--enableforcelegacy',
             default => '--disableforcelegacy',
