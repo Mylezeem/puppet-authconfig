@@ -192,7 +192,7 @@ class authconfig (
       }
 
       if $ldapserver {
-        $ldapserver_val = "--ldapserver=${ldapserver}"
+        $ldapserver_val = "--ldapserver='${ldapserver}'"
       }
 
       $sssd_flg = $sssd ? {
