@@ -18,4 +18,6 @@ class authconfig::params () {
   $cache_services     = ['nscd']
   $ldap_services      = ['nslcd']
 
+  $smartcard_packages = [ 'nss-tools', 'nss-pam-ldapd', 'esc', 'pam_pkcs11', 'pam_krb5', 'coolkey', 'pcsc-lite-ccid', 'pcsc-lite', 'pcsc-lite-libs' ]
+
 }
