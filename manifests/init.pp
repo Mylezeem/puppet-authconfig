@@ -105,6 +105,18 @@
 #
 #  [*mkhomedir*]
 #
+#  [*smartc*]
+#    Boolean to enable or disable SmartCard Authentication. 
+#    (Default: false)
+#
+#  [*smartcaction*]
+#    Boolean to determine SmartCard Removal Action. Values: True = Lock, False = Ignore 
+#    (Default: false)
+#
+#  [*smartcrequire*]
+#    Boolean to derermine if SmartCard is required. Values: True = Required, False = Not Required
+#    (Default: false)
+#
 #Whether to automatically create user home dir on first login
 #
 # === Authors
@@ -150,6 +162,9 @@ class authconfig (
   $krb5kdcdns     = false,
   $krb5realmdns   = false,
   $preferdns      = false,
+  $smartc         = false,
+  $smartcaction   = false,
+  $smartcrequire  = false,
 ) inherits authconfig::params {
 
   case $::osfamily {
@@ -401,6 +416,22 @@ class authconfig (
         default => '--disablepamaccess',
       }
 
+      #Smartcard Auth
+      $smartcard_flg = $smartc ? {
+        true    => '--enablesmartcard',
+        default => '--disablesmartcard',
+      }
+
+      $smartcard_action_flg = $smartcaction ? {
+        true    => '--smartcardaction=0',
+        default => '--smartcardaction=1',
+      }
+
+      $smartcard_require_flg = $smartcrequire ? {
+        true    => '--enablerequiresmartcard',
+        default => '--disablerequiresmartcard',
+      }
+
       # construct the command
       $ldap_flags = $ldap ? {
         true    => "${ldap_flg} ${ldapauth_flg} ${ldaptls_flg} ${ldapbasedn_val} ${ldaploadcacert_val} ${ldapserver_val}",
@@ -422,10 +453,15 @@ class authconfig (
         default => '',
       }
 
+      $smartcard_flags = $smartc ? {
+        true    => "${smartcard_flg} ${smartcard_action_flg} ${smartcard_require_flg}",
+        default => '',
+      }
+
       $extra_flags = "${preferdns_flg} ${forcelegacy_flg} ${pamaccess_flg}"
 
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg} ${sssd_flg} ${sssdauth_flg} ${locauthorize_flg} ${sysnetauth_flg}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg} ${sssd_flg} ${sssdauth_flg} ${locauthorize_flg} ${sysnetauth_flg} ${smartcard_flags}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --updateall"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
@@ -466,6 +502,12 @@ class authconfig (
           ensure => installed,
         }
       # service oddjobd is started automatically by authconfig
+      }
+
+      if $smartc {
+        package { $authconfig::params::smartcard_packages:
+          ensure => installed,
+        }
       }
 
       package { $authconfig::params::packages:
