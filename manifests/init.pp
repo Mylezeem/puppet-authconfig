@@ -204,6 +204,8 @@ class authconfig (
 
       if $ldaploadcacert {
         $ldaploadcacert_val = "--ldaploadcacert='${ldaploadcacert}'"
+      } else {
+        $ldaploadcacert_val = ''
       }
 
       if $ldapserver {
