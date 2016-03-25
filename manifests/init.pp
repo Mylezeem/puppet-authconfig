@@ -119,6 +119,11 @@
 #
 #Whether to automatically create user home dir on first login
 #
+#  [*rfc2307bis*]
+#    Boolean to determine if the LDAP schema uses rfc2307 (false) or rfc2307bis (true).
+#    If this value is `true` on a system that does not support rfc2307bis, a catalog error will be generated.
+#    (Default: false)
+#
 # === Authors
 #
 # Yanis Guenane <yguenane@gmail.com>
@@ -165,6 +170,7 @@ class authconfig (
   $smartc         = false,
   $smartcaction   = false,
   $smartcrequire  = false,
+  $rfc2307bis     = false,
 ) inherits authconfig::params {
 
   case $::osfamily {
@@ -220,6 +226,17 @@ class authconfig (
       $sssdauth_flg = $sssdauth ? {
         true    => '--enablesssdauth',
         default => '--disablesssdauth',
+      }
+
+      if $authconfig::params::enablerfc2307bis_allowed {
+        $rfc2307bis_flg = $rfc2307bis ? {
+          true    => '--enablerfc2307bis' ,
+          default => '--disablerfc2307bis' ,
+        }
+      } elsif $rfc2307bis {
+        fail('rfc2307bis is not supported on client operating system')
+      } else {
+        $rfc2307bis_flg = ''
       }
 
       if $::osfamily == 'RedHat' {
@@ -466,7 +483,7 @@ class authconfig (
       $extra_flags = "${preferdns_flg} ${forcelegacy_flg} ${pamaccess_flg}"
 
       $pass_flags            = "${md5_flg} ${passalgo_val} ${shadow_flg}"
-      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg} ${sssd_flg} ${sssdauth_flg} ${locauthorize_flg} ${sysnetauth_flg} ${smartcard_flags}"
+      $authconfig_flags      = "${ldap_flags} ${nis_flags} ${pass_flags} ${krb5_flags} ${winbind_flags} ${extra_flags} ${cache_flg} ${mkhomedir_flg} ${sssd_flg} ${sssdauth_flg} ${rfc2307bis_flg} ${locauthorize_flg} ${sysnetauth_flg} ${smartcard_flags}"
       $authconfig_update_cmd = "authconfig ${authconfig_flags} --updateall"
       $authconfig_test_cmd   = "authconfig ${authconfig_flags} --test"
       $exec_check_cmd        = "/usr/bin/test \"`${authconfig_test_cmd}`\" = \"`authconfig --test`\""
@@ -489,7 +506,23 @@ class authconfig (
         }
       }
 
-      if $ldap {
+      if $sssd {
+        # if we're using sssd, then sssd takes care of ldap connectivity.
+        # therefore, we only need the sssd packages and services, not the
+        # ldap packages and services
+        package { $authconfig::params::sssd_packages:
+          ensure => installed,
+        }
+        # sssd services must only run after the authconfig command has set
+        # up the config.
+        service { $authconfig::params::sssd_services:
+          ensure     => running,
+          enable     => true,
+          hasstatus  => true,
+          hasrestart => true,
+          require    => Exec['authconfig command'],
+        }
+      } elsif $ldap {
         package { $authconfig::params::ldap_packages:
           ensure => installed,
         } ->

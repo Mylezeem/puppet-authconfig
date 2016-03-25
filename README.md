@@ -187,6 +187,12 @@ Whether to use naming services caches
 
 Whether to automatically create user home dir on first login
 
+#### `rfc2307bis`
+
+Boolean to determine if the LDAP schema uses rfc2307 (false) or rfc2307bis (true).
+Only valid if `sssd` is true.
+If this value is `true` on a system that does not support rfc2307bis (RHEL < 6), a catalog error will be generated.
+
 ## License
 
 Apache License v2
