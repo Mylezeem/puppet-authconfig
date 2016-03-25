@@ -221,7 +221,10 @@ class authconfig (
       }
 
       if $::osfamily == 'RedHat' {
-        if versioncmp($::operatingsystemmajrelease, '6') >= 0 {
+# put $::operatingsystemmajrelease in quotes to force it to a string.
+# to make lint happy, the string has to have more than just the bare variable. :P
+# so compare ${::operatingsystemmajrelease}.0 against 6.0
+        if versioncmp("${::operatingsystemmajrelease}.0", '6.0') >= 0 {
           $forcelegacy_flg = $forcelegacy ? {
             true    => '--enableforcelegacy',
             default => '--disableforcelegacy',
