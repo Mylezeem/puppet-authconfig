@@ -1,3 +1,5 @@
+# DEPRECATED: This module is no longer actively maintained
+
 #Authconfig
 
 [![Build Status](https://travis-ci.org/Mylezeem/puppet-authconfig.png)](https://travis-ci.org/Mylezeem/puppet-authconfig)
